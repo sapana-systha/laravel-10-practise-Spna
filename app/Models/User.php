@@ -53,10 +53,10 @@ class User extends Authenticatable
     //     );
     // }
 
-    protected function getNameAttribute($value)
-    {
-        return strtoupper($value);
-    }
+    // protected function getNameAttribute($value)
+    // {
+    //     return strtoupper($value);
+    // }
 
 
     // creating mutator
@@ -65,4 +65,6 @@ class User extends Authenticatable
     //         set: fn($value)=>bcrypt($value),
     //     );
     // }
+    
+
 }

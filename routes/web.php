@@ -18,13 +18,15 @@ use  App\Models\User;
 
 
 Route::get('/', function () {
-    // return view('welcome');
+    return view('welcome');
     // return view('home');
 
     // fetch all users
     // $users = DB::select("select * from users");
-    $users= User::find(1)->name;
-    
+    // $users= User::find(1)->name;
+    $user = new User(); // Assuming User is the class for your user entity
+   
+     
 
 
     // create users
@@ -67,7 +69,7 @@ Route::get('/', function () {
     // 
     // $user=User::find(7);
     // $user->delete();
-    dd($users);
+    // dd($users);
 });
 
 Route::get('/dashboard', function () {
