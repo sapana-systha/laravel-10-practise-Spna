@@ -4,6 +4,8 @@
             {{ __("Avatar")}}
         </h2>
 
+        <img  class="rounded-full" width="50" height="50" src="{{ '/storage/' . $user->avatar }}" alt="user avatar">
+
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __("Upload your picture.") }}
         </p>
