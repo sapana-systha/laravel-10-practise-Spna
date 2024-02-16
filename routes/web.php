@@ -81,21 +81,22 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::patch('/profile/avatar',[AvatarController::class,'update'])->name('profile.avatar');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile/avatar',[AvatarController::class,'update'])->name('profile.avatar');
+    Route::post('/profile/avatar/ai',[AvatarController::class,'generateAvatar'])->name('profile.avatar.ai');
+
 });
 
 require __DIR__.'/auth.php';
 
 
-
-Route::get('/openai',function(){
-    $result = OpenAI::chat()->create([
-        'model' => 'gpt-3.5-turbo',
-        'messages' => [
-            ['role' => 'user', 'content' => 'Hello!'],
-        ],
-    ]);
-    
-    echo $result->choices[0]->message->content; // Hello! How can I assist you today?
-});
+// Route::get('/openai',function(){
+//     $result = OpenAI::images()->create([
+//         "prompt" =>"Create avatar for user with name". auth()->user()->name,
+//         'n'=> 1,
+//         'size'=>"256x256",
+//     ]);
+//     return response(['url'=>$result->data[0]->url]);
+//     // dd($result->data[0]->url);
+//     // echo $result ;// Hello! How can I assist you today?
+// });
