@@ -6,6 +6,8 @@ use  Illuminate\Support\Facades\DB;
 use  App\Models\User;
 use App\Http\Controllers\Profile\AvatarController;
 use OpenAI\Laravel\Facades\OpenAI;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,7 @@ use OpenAI\Laravel\Facades\OpenAI;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
     // return view('home');
 
     // fetch all users
@@ -89,14 +91,20 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
 
-// Route::get('/openai',function(){
-//     $result = OpenAI::images()->create([
-//         "prompt" =>"Create avatar for user with name". auth()->user()->name,
-//         'n'=> 1,
-//         'size'=>"256x256",
-//     ]);
-//     return response(['url'=>$result->data[0]->url]);
-//     // dd($result->data[0]->url);
-//     // echo $result ;// Hello! How can I assist you today?
-// });
+Route::get('/auth/callback', function () {
+    // Get the user from the github
+    $user = Socialite::driver('github')->user();
+    // using the user model if the user is available if availavle update if not create
+    $user=User::updateOrCreate(['email'=>$user->email],[
+        'name'=>$user->name,
+        'password'=>'password',
+    ]);
+    Auth::login($user);
+    return redirect('/dashboard');
+    // dd($user);
+});
+
